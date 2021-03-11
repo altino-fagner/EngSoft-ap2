@@ -4,20 +4,29 @@ public class TextStatement extends Statement {
 
     public String value(Customer aCustomer) {
         Enumeration rentals = aCustomer.getRentals();
-        String result = "Rental Record for " + aCustomer.getName() +
-        "\n";
+        String result = getHeaderString(aCustomer);
         while (rentals.hasMoreElements()) {
-           Rental each = (Rental) rentals.nextElement();
-           //show figures for this rental
-           result += "\t" + each.getMovie().getTitle()+ "\t" +
-           String.valueOf(each.getCharge()) + "\n";
+            Rental each = (Rental) rentals.nextElement();
+            result += getBodyString(each);
         }
-        //add footer lines
-        result += "Amount owed is " +
-        String.valueOf(aCustomer.getTotalCharge()) + "\n";
-        result += "You earned " +
-        String.valueOf(aCustomer.getTotalFrequentRenterPoints()) +
-        " frequent renter points";
+        result += getFooterString(aCustomer);
         return result;
-     }
+    }
+
+
+    private String getHeaderString(Customer aCustomer) {
+        return "Rental Record for " + aCustomer.getName() + "\n";
+    }
+
+    private String getBodyString(Rental each) {
+        return "\t" + each.getMovie().getTitle()+ "\t" + String.valueOf(each.getCharge()) + "\n";
+    }
+
+    private String getFooterString(Customer aCustomer) {
+        String result;
+        result = "Amount owed is " + String.valueOf(aCustomer.getTotalCharge()) + "\n";
+        result += "You earned " + String.valueOf(aCustomer.getTotalFrequentRenterPoints()) + 
+                " frequent renter points";
+        return result;
+    }
 }
